@@ -1,6 +1,6 @@
 {
   "name": "@puruslang/linter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Linter for the Purus language",
   "license": "Apache-2.0",
   "main": "src/index.js",

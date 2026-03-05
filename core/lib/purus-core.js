@@ -11,7 +11,7 @@ const { execFileSync } = require("child_process");
 const path = require("path");
 
 const COMPILER_JS = path.join(__dirname, "purus-compiler.js");
-const VERSION = "0.0.1";
+const VERSION = require("../package.json").version;
 
 /**
  * Compile Purus source code to JavaScript.
