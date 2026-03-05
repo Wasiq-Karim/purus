@@ -2,7 +2,7 @@
 
 [![Logo](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/logo.png)](https://purus.work)
 
-[English](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/README.md) | **日本語**
+[English](https://github.com/otoneko1102/purus#readme) | **日本語**
 
 </div>
 

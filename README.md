@@ -2,7 +2,7 @@
 
 [![Logo](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/logo.png)](https://purus.work)
 
-**English** | [日本語](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/README-ja.md)
+**English** | [日本語](https://github.com/otoneko1102/purus/blob/main/README-ja.md)
 
 </div>
 
@@ -55,4 +55,4 @@ otoneko. https://github.com/otoneko1102
 
 ## License
 
-Distributed under the Apache 2.0 License. See [LICENSE](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/LICENSE) for more information.
+Distributed under the Apache 2.0 License. See [LICENSE](https://github.com/otoneko1102/purus/blob/main/LICENSE) for more information.
