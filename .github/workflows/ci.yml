@@ -18,6 +18,9 @@ jobs:
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> $GITHUB_PATH
 
+      - name: Update dependencies
+        run: cd core && moon update
+
       - name: Check
         run: cd core && moon check
 
