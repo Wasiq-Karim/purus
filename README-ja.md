@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Logo](./logo.png)](https://purus.work)
+[![Logo](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/logo.png)](https://purus.work)
 
 [English](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/README.md) | **日本語**
 
@@ -55,4 +55,4 @@ otoneko. https://github.com/otoneko1102
 
 ## ライセンス
 
-Apache 2.0 ライセンスに基づいて配布されます。詳細については、[LICENSE](./LICENSE) を参照してください。
+Apache 2.0 ライセンスに基づいて配布されます。詳細については、[LICENSE](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/LICENSE) を参照してください。

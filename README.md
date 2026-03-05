@@ -55,4 +55,4 @@ otoneko. https://github.com/otoneko1102
 
 ## License
 
-Distributed under the Apache 2.0 License. See [LICENSE](./LICENSE) for more information.
+Distributed under the Apache 2.0 License. See [LICENSE](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/LICENSE) for more information.
