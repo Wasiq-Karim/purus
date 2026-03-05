@@ -12,6 +12,20 @@ export default defineConfig({
       logo: {
         src: './src/assets/icon.png',
       },
+      head: [
+        {
+          tag: 'meta',
+          attrs: { property: 'og:image', content: 'https://purus.work/img/banner.png' },
+        },
+        {
+          tag: 'meta',
+          attrs: { name: 'twitter:card', content: 'summary_large_image' },
+        },
+        {
+          tag: 'meta',
+          attrs: { name: 'twitter:image', content: 'https://purus.work/img/banner.png' },
+        },
+      ],
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/otoneko1102/purus' },
       ],
