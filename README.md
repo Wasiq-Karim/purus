@@ -1,8 +1,8 @@
 <div align="center">
 
-[![Logo](./logo.png)](https://purus.work)
+[![Logo](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/logo.png)](https://purus.work)
 
-**English** | [日本語](./README-ja.md)
+**English** | [日本語](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/README-ja.md)
 
 </div>
 
