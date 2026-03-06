@@ -8,8 +8,12 @@
 
 ---
 
+[![CI](https://github.com/otoneko1102/purus/actions/workflows/ci.yml/badge.svg)](https://github.com/otoneko1102/purus/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/purus)](https://www.npmjs.com/package/purus)
 [![npm downloads](https://img.shields.io/npm/dm/purus)](https://www.npmjs.com/package/purus)
+[![License](https://img.shields.io/github/license/otoneko1102/purus)](https://github.com/otoneko1102/purus/blob/main/LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org/)
+[![VS Code Extension](https://img.shields.io/visual-studio-marketplace/i/otoneko1102.purus)](https://marketplace.visualstudio.com/items?itemName=otoneko1102.purus)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/otoneko1102/purus)](https://github.com/otoneko1102/purus/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/otoneko1102/purus)](https://github.com/otoneko1102/purus/commits/main)
 ![US layout](https://img.shields.io/badge/US_layout-Supported-green)
