@@ -91,6 +91,27 @@ fn JsCodegen::gen_stmt(self : JsCodegen, stmt : Stmt) -> Unit {
       self.gen_expr(value)
       self.write(";\n")
     }
+    ObjDestructDecl(kind, names, value) => {
+      let kw = match kind {
+        Const_ => "const"
+        Let_ => "let"
+        Var_ => "var"
+      }
+      self.write_indent()
+      self.write(kw)
+      self.write(" { ")
+      let mut first = true
+      for n in names {
+        if not(first) {
+          self.write(", ")
+        }
+        self.write(js_ident(n))
+        first = false
+      }
+      self.write(" } = ")
+      self.gen_expr(value)
+      self.write(";\n")
+    }
     Assign(target, value) => {
       match target {
         Slice(obj, start, end, inclusive) => {

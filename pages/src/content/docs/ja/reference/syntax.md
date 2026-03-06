@@ -38,8 +38,42 @@ const greeting be ///Hello, World///
 | `\t` | タブ |
 | `\\` | バックスラッシュ |
 | `\/` | `/` |
-| `\[` | `[` |
-| `\]` | `]` |
+| `\[` | `[`（リテラルブラケット） |
+| `\]` | `]`（リテラルブラケット） |
+
+### 文字列補間（テンプレートリテラル）
+
+文字列内で `[式]` を使うと、式を埋め込むことができます:
+
+```
+const name be ///Alice///
+const age be 30
+const msg be ///Hello, [name]! You are [age] years old.///
+```
+
+コンパイル結果:
+
+```js
+const name = "Alice";
+const age = 30;
+const msg = `Hello, ${name}! You are ${age} years old.`;
+```
+
+ブラケット内では任意の式を使えます:
+
+```
+const x be 10
+const result be ///[x] times 2 is [x mul 2]///
+```
+
+コンパイル結果:
+
+```js
+const x = 10;
+const result = `${x} times 2 is ${x * 2}`;
+```
+
+文字列内にリテラルの `[` や `]` を含めたい場合は、エスケープシーケンス `\[` と `\]` を使います。
 
 ## 数値
 
@@ -131,6 +165,22 @@ const obj be [name be ///Alice///, age be 30]
 const empty-obj be [be]    -- 空のオブジェクト
 ```
 
+### オブジェクト分割代入
+
+`object[...]` を使ってオブジェクトからプロパティを取り出します:
+
+```
+const person be [name be ///Alice///, age be 30]
+const object[name; age] be person
+```
+
+コンパイル結果:
+
+```js
+const person = { name: "Alice", age: 30 };
+const { name, age } = person;
+```
+
 ## 括弧は`[]`のみ
 
 Purusでは関数呼び出し、配列、オブジェクト、グループ化のすべてに `[]` を使用します。`()` や `{}` は使いません。
@@ -148,9 +198,18 @@ else
 
 ## 識別子
 
-識別子にはハイフン（`-`）を含めることができ、JavaScript出力ではアンダースコアに変換されます:
+識別子にはハイフン（`-`）とアンダースコア（`_`）を含めることができ、JavaScript出力ではどちらもアンダースコアに変換されます:
 
 ```
 const my-variable be 42
 -- コンパイル結果: const my_variable = 42;
+
+const my_variable2 be 43
+-- コンパイル結果: const my_variable2 = 43;
 ```
+
+ハイフンとアンダースコアは互換性があります — `my-var` と `my_var` は同じJavaScript変数（`my_var`）を参照します。JSライブラリとの互換性のため、どちらの形式でも使用できます。
+
+:::caution
+`a-b` と `a_b` はどちらも `a_b` にコンパイルされるため、同じスコープで両方を定義しないでください。同じ変数を参照します。
+:::

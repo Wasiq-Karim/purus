@@ -10,6 +10,10 @@ const is-active be true
 let score be 100
 score be score add 50
 
+-- Underscores in identifiers (equivalent to hyphens)
+const my_variable be 42
+const my-variable2 be 43
+
 -- Null and undefined
 const nothing be null
 const also-nothing be nil
@@ -23,6 +27,19 @@ const mixed be [///hello///; 42; true; null]
 const person be [name be ///Bob///, age be 25]
 const empty-obj be [be]
 
--- Destructuring
+-- Destructuring (array)
 const weather be [///Sunny///; ///Rainy///]
 const [today; tomorrow] be weather
+
+-- Destructuring (object)
+const config be [host be ///localhost///, port be 8080]
+const object[host; port] be config
+
+-- Nullish coalescing
+const value be null
+const result be value coal ///default///
+
+-- String interpolation
+const user be ///World///
+const greeting be ///Hello, [user]!///
+const msg be ///[name] is [age] years old///

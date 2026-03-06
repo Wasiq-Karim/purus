@@ -20,11 +20,22 @@ fn Parser::parse_expr(self : Parser) -> Expr {
 
 ///|
 fn Parser::parse_pipe(self : Parser) -> Expr {
-  let mut left = self.parse_or()
+  let mut left = self.parse_coal()
   while self.peek() == Pipe_ {
     self.pos += 1
-    let right = self.parse_or()
+    let right = self.parse_coal()
     left = Pipe(left, right)
+  }
+  left
+}
+
+///|
+fn Parser::parse_coal(self : Parser) -> Expr {
+  let mut left = self.parse_or()
+  while self.peek() == Coal {
+    self.pos += 1
+    let right = self.parse_or()
+    left = BinOp(Coal, left, right)
   }
   left
 }
@@ -394,6 +405,28 @@ fn Parser::parse_primary(self : Parser) -> Expr {
     Int(n) => { self.pos += 1; IntLit(n) }
     Float(n) => { self.pos += 1; FloatLit(n) }
     Str(s) => { self.pos += 1; StrLit(s) }
+    InterpStr(segments) => {
+      self.pos += 1
+      let parts : Array[StrPart] = []
+      let mut i = 0
+      while i < segments.length() {
+        if i % 2 == 0 {
+          // Literal part
+          if segments[i].length() > 0 {
+            parts.push(Lit(segments[i]))
+          }
+        } else {
+          // Expression part - lex and parse it
+          let expr_tokens = Lexer::new(segments[i]).tokenize()
+          let sub_parser = Parser::new(expr_tokens)
+          sub_parser.skip_newlines_and_indent() |> ignore
+          let expr = sub_parser.parse_expr()
+          parts.push(Interp(expr))
+        }
+        i += 1
+      }
+      StrInterp(parts)
+    }
     Regex(pattern, flags) => { self.pos += 1; RegexLit(pattern, flags) }
     True_ => { self.pos += 1; BoolLit(true) }
     False_ => { self.pos += 1; BoolLit(false) }

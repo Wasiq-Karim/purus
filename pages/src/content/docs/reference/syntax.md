@@ -38,8 +38,42 @@ const greeting be ///Hello, World///
 | `\t` | Tab |
 | `\\` | Backslash |
 | `\/` | `/` |
-| `\[` | `[` |
-| `\]` | `]` |
+| `\[` | `[` (literal bracket) |
+| `\]` | `]` (literal bracket) |
+
+### String interpolation
+
+Use `[expr]` inside a string to embed expressions:
+
+```
+const name be ///Alice///
+const age be 30
+const msg be ///Hello, [name]! You are [age] years old.///
+```
+
+Compiles to:
+
+```js
+const name = "Alice";
+const age = 30;
+const msg = `Hello, ${name}! You are ${age} years old.`;
+```
+
+You can use any expression inside the brackets:
+
+```
+const x be 10
+const result be ///[x] times 2 is [x mul 2]///
+```
+
+Compiles to:
+
+```js
+const x = 10;
+const result = `${x} times 2 is ${x * 2}`;
+```
+
+To include a literal `[` or `]` in a string, use the escape sequences `\[` and `\]`.
 
 ## Numbers
 
@@ -131,6 +165,22 @@ const obj be [name be ///Alice///, age be 30]
 const empty-obj be [be]    -- empty object
 ```
 
+### Object destructuring
+
+Use `object[...]` to destructure properties from an object:
+
+```
+const person be [name be ///Alice///, age be 30]
+const object[name; age] be person
+```
+
+Compiles to:
+
+```js
+const person = { name: "Alice", age: 30 };
+const { name, age } = person;
+```
+
 ## Brackets only
 
 Purus uses `[]` for everything — function calls, arrays, objects, and grouping. No `()` or `{}`.
@@ -148,9 +198,18 @@ else
 
 ## Identifiers
 
-Identifiers can contain hyphens (`-`), which are converted to underscores in JavaScript output:
+Identifiers can contain hyphens (`-`) and underscores (`_`), which are both converted to underscores in JavaScript output:
 
 ```
 const my-variable be 42
 -- compiles to: const my_variable = 42;
+
+const my_variable2 be 43
+-- compiles to: const my_variable2 = 43;
 ```
+
+Hyphens and underscores are interchangeable — `my-var` and `my_var` refer to the same JavaScript variable (`my_var`). If you need to work with JS libraries that use underscores, you can use either form in Purus.
+
+:::caution
+Since `a-b` and `a_b` both compile to `a_b`, avoid defining both forms in the same scope. They will refer to the same variable.
+:::

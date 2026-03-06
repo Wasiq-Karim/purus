@@ -39,6 +39,9 @@ pub(all) enum TokenKind {
   Or
   Not
 
+  // Nullish coalescing
+  Coal
+
   // Special keywords
   Fn
   Return_
@@ -106,6 +109,9 @@ pub(all) enum TokenKind {
   Newline
   Indent(Int) // indentation level (number of spaces)
   
+  // Interpolated string
+  InterpStr(Array[String])  // alternating: lit, expr, lit, expr, ..., lit
+
   // Special
   Shebang(String)  // #!...
   Comment(String)

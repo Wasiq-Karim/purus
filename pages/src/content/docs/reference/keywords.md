@@ -101,6 +101,12 @@ sidebar:
 | `or` | `\|\|` |
 | `not` | `!` |
 
+### Nullish Coalescing
+
+| Keyword | JS Output |
+|---|---|
+| `coal` | `??` |
+
 ### Pipeline
 
 | Keyword | JS Output |

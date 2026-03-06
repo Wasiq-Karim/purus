@@ -80,6 +80,7 @@ pub(all) enum BinOp {
   Ge
   And
   Or
+  Coal
 } derive(Show)
 
 ///|
@@ -106,6 +107,7 @@ pub(all) enum Stmt {
   // Variable declarations
   VarDecl(DeclKind, String, Expr)
   DestructDecl(DeclKind, Array[String], Expr) // const/let/var [a, b] = expr
+  ObjDestructDecl(DeclKind, Array[String], Expr) // const/let/var object[a, b] = expr
 
   // Assignment
   Assign(Expr, Expr)

@@ -56,7 +56,8 @@ fn Lexer::emit(self : Lexer, kind : TokenKind, line : Int, col : Int) -> Unit {
 fn is_ident_start(ch : Char) -> Bool {
   (ch >= 'a' && ch <= 'z') ||
     (ch >= 'A' && ch <= 'Z') ||
-    ch == '-' // purus allows hyphens in idents
+    ch == '-' || // purus allows hyphens in idents
+    ch == '_' // purus allows underscores in idents
 }
 
 ///|
@@ -215,7 +216,12 @@ pub fn Lexer::tokenize(self : Lexer) -> Array[Token] {
       continue
     }
     // Identifiers and keywords
-    if is_ident_start(ch) && ch != '-' {
+    if is_ident_start(ch) && ch != '-' && ch != '_' {
+      self.scan_ident()
+      continue
+    }
+    // Underscored identifiers
+    if ch == '_' {
       self.scan_ident()
       continue
     }
@@ -304,7 +310,9 @@ fn Lexer::scan_string(self : Lexer) -> Unit {
   self.advance() |> ignore
   self.advance() |> ignore
   self.advance() |> ignore
-  let buf = StringBuilder::new()
+  let segments : Array[String] = []
+  let mut buf = StringBuilder::new()
+  let mut has_interp = false
   while self.pos < self.chars.length() {
     if self.peek() == '/' && self.peek_at(1) == '/' && self.peek_at(2) == '/' {
       self.advance() |> ignore
@@ -329,9 +337,38 @@ fn Lexer::scan_string(self : Lexer) -> Unit {
       }
       continue
     }
+    if self.peek() == '[' {
+      has_interp = true
+      segments.push(buf.to_string())
+      buf = StringBuilder::new()
+      self.advance() |> ignore // skip [
+      let expr_buf = StringBuilder::new()
+      let mut depth = 1
+      while self.pos < self.chars.length() && depth > 0 {
+        let ch = self.peek()
+        if ch == '[' {
+          depth += 1
+        }
+        if ch == ']' {
+          depth -= 1
+          if depth == 0 {
+            self.advance() |> ignore
+            break
+          }
+        }
+        expr_buf.write_char(self.advance())
+      }
+      segments.push(expr_buf.to_string())
+      continue
+    }
     buf.write_char(self.advance())
   }
-  self.emit(Str(buf.to_string()), line, col)
+  if has_interp {
+    segments.push(buf.to_string())
+    self.emit(InterpStr(segments), line, col)
+  } else {
+    self.emit(Str(buf.to_string()), line, col)
+  }
 }
 
 ///|
@@ -397,7 +434,7 @@ fn Lexer::is_neg_literal_context(self : Lexer) -> Bool {
   }
   let last = self.tokens[self.tokens.length() - 1]
   match last.kind {
-    LBracket | Comma | Semicolon | Be | Newline | Indent(_) | Return_ | To | Then_ => true
+    LBracket | Comma | Semicolon | Be | Newline | Indent(_) | Return_ | To | Then_ | Coal => true
     _ => false
   }
 }
@@ -481,6 +518,7 @@ fn Lexer::scan_ident(self : Lexer) -> Unit {
     "null" => Null_
     "nil" => Nil_
     "undefined" => Undefined_
+    "coal" => Coal
     "list" => List_
     "object" => Object_
     _ => Ident(word)

@@ -8,16 +8,17 @@ sidebar:
 ## 演算子の優先順位（低い順）
 
 1. `pipe` — パイプライン
-2. `or` — 論理OR
-3. `and` — 論理AND
-4. `eq` / `neq` / `not eq` / `is` / `instanceof` — 等価 / 型チェック
-5. `lt` / `gt` / `le`（`lt eq`） / `ge`（`gt eq`） — 比較
-6. `add` / `sub` — 加算 / 減算
-7. `mul` / `div` / `mod` — 乗算 / 除算 / 剰余
-8. `pow` — べき乗
-9. 単項: `not` / `neg` / `typeof` / `await` / `delete` / `new`
-10. 後置: `.` アクセス / `[args]` 呼び出し / `as` キャスト
-11. 基本: リテラル、識別子、括弧
+2. `coal` — Null合体
+3. `or` — 論理OR
+4. `and` — 論理AND
+5. `eq` / `neq` / `not eq` / `is` / `instanceof` — 等価 / 型チェック
+6. `lt` / `gt` / `le`（`lt eq`） / `ge`（`gt eq`） — 比較
+7. `add` / `sub` — 加算 / 減算
+8. `mul` / `div` / `mod` — 乗算 / 除算 / 剰余
+9. `pow` — べき乗
+10. 単項: `not` / `neg` / `typeof` / `await` / `delete` / `new`
+11. 後置: `.` アクセス / `[args]` 呼び出し / `as` キャスト
+12. 基本: リテラル、識別子、括弧
 
 ## パイプライン
 
@@ -123,12 +124,51 @@ const [today; tomorrow] be weather
 [today; tomorrow] be [tomorrow; today]
 ```
 
+### オブジェクト分割代入
+
+`object[...]` を使ってオブジェクトからプロパティを取り出します:
+
+```
+const config be [host be ///localhost///, port be 8080]
+const object[host; port] be config
+```
+
+コンパイル結果:
+
+```js
+const config = { host: "localhost", port: 8080 };
+const { host, port } = config;
+```
+
 ## 論理
 
 ```
 a and b    -- a && b
 a or b     -- a || b
 not x      -- !x
+```
+
+## Null合体（Nullish Coalescing）
+
+`coal` 演算子は、左辺が `null` または `undefined` の場合に右辺の値を返します:
+
+```
+a coal b           -- a ?? b
+a coal b coal c    -- a ?? b ?? c
+```
+
+コンパイル結果:
+
+```js
+a ?? b;
+a ?? b ?? c;
+```
+
+`or` との違い: `or` はすべてのfalsy値（`false`, `0`, `""`, `null`, `undefined`）をfalseとして扱いますが、`coal` は `null` と `undefined` のみを「空」として扱います。`0` や `false` や `""` を保持したい場合は `coal` を使ってください。
+
+```
+const port be config.port coal 3000      -- portがnull/undefinedの場合のみ3000を使用
+const name be user.name coal ///guest///  -- nameがnull/undefinedの場合のみ"guest"を使用
 ```
 
 ## 型チェック

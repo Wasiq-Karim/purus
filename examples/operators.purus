@@ -26,6 +26,11 @@ const either be true or false
 const negated be not true
 const not-flag be false
 
+-- Nullish coalescing
+const a be null
+const b be a coal ///fallback///
+const c be a coal b coal ///default///
+
 -- Pipeline
 const data be [1, 2, 3, 4, 5]
 const result be data pipe JSON.stringify
@@ -47,6 +52,10 @@ const partial be numbers[1...4]
 let arr be [0, 1, 2, 3, 4, 5, 6]
 arr[2..4] be [///a///; ///b///; ///c///]
 
--- Destructuring
+-- Destructuring (array)
 const weather be [///Sunny///; ///Rainy///]
 const [today; tomorrow] be weather
+
+-- Destructuring (object)
+const config be [host be ///localhost///, port be 3000]
+const object[host; port] be config

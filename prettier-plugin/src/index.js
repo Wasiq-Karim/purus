@@ -10,7 +10,7 @@ const KEYWORDS = new Set([
   "import", "from", "export", "default", "require", "use", "namespace", "pub", "all",
   "add", "sub", "mul", "div", "mod", "neg", "pow",
   "eq", "neq", "lt", "gt", "le", "ge",
-  "and", "or", "not", "pipe",
+  "and", "or", "not", "pipe", "coal",
   "is", "as", "of", "typeof", "instanceof", "type",
   "new", "delete", "this", "await",
   "true", "false", "null", "nil", "undefined",
@@ -108,9 +108,9 @@ function tokenize(source) {
     }
 
     // Word (identifier or keyword)
-    if (/[a-zA-Z]/.test(source[i])) {
+    if (/[a-zA-Z_]/.test(source[i])) {
       let start = i;
-      while (i < len && /[a-zA-Z0-9-]/.test(source[i])) i++;
+      while (i < len && /[a-zA-Z0-9_-]/.test(source[i])) i++;
       const word = source.slice(start, i);
       tokens.push({ type: KEYWORDS.has(word) ? "keyword" : "ident", value: word });
       continue;

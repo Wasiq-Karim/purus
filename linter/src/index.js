@@ -10,7 +10,7 @@ const KEYWORDS = new Set([
   "import", "from", "export", "default", "require", "use", "namespace", "pub", "all",
   "add", "sub", "mul", "div", "mod", "neg", "pow",
   "eq", "neq", "lt", "gt", "le", "ge",
-  "and", "or", "not", "pipe",
+  "and", "or", "not", "pipe", "coal",
   "is", "as", "of", "typeof", "instanceof", "type",
   "new", "delete", "this", "await",
   "true", "false", "null", "nil", "undefined",
@@ -87,9 +87,9 @@ function tokenize(source) {
     }
 
     // Word
-    if (/[a-zA-Z]/.test(source[i])) {
+    if (/[a-zA-Z_]/.test(source[i])) {
       let start = i;
-      while (i < len && /[a-zA-Z0-9-]/.test(source[i])) { i++; col++; }
+      while (i < len && /[a-zA-Z0-9_-]/.test(source[i])) { i++; col++; }
       const word = source.slice(start, i);
       tokens.push({ type: KEYWORDS.has(word) ? "keyword" : "ident", value: word, line: startLine, col: startCol });
       continue;
@@ -167,11 +167,8 @@ function lint(source, ruleOverrides = {}) {
       if (style === "kebab-case") {
         // Identifiers should be kebab-case (lowercase with hyphens)
         // Allow PascalCase for class names (starts with uppercase)
+        // Allow underscores (they are equivalent to hyphens)
         if (/[A-Z]/.test(tok.value[0])) continue; // Allow PascalCase
-        if (/_/.test(tok.value)) {
-          report("consistent-naming", tok.line, tok.col,
-            `Use kebab-case instead of snake_case: '${tok.value}'`);
-        }
       }
     }
   }

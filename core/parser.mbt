@@ -205,6 +205,36 @@ fn Parser::parse_ident_name(self : Parser) -> String {
 ///|
 fn Parser::parse_var_decl(self : Parser, kind : DeclKind) -> Stmt {
   self.pos += 1 // skip const/let/var
+  // Check for object destructuring: const/let/var object[a; b] be expr
+  if self.peek() == Object_ {
+    self.pos += 1 // skip 'object'
+    if self.peek() == LBracket {
+      self.pos += 1 // skip [
+      let names : Array[String] = []
+      while self.pos < self.tokens.length() && self.peek() != RBracket {
+        let name = self.parse_ident_name()
+        names.push(name)
+        if self.peek() == Semicolon || self.peek() == Comma {
+          self.pos += 1
+        }
+      }
+      if self.peek() == RBracket {
+        self.pos += 1
+      }
+      self.expect(Be)
+      let value = self.parse_expr()
+      return self.maybe_postfix(ObjDestructDecl(kind, names, value))
+    }
+    // Not followed by [, treat 'object' as variable name
+    let name = "object"
+    if self.peek() == Of {
+      self.pos += 1
+      self.skip_type_annotation()
+    }
+    self.expect(Be)
+    let value = self.parse_expr()
+    return self.maybe_postfix(VarDecl(kind, name, value))
+  }
   // Check for destructuring: const/let/var [a; b] be expr
   if self.peek() == LBracket {
     self.pos += 1 // skip [

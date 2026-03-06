@@ -32,6 +32,31 @@ function double(x) {
 }
 ```
 
+## Function with no arguments
+
+Simply omit the parameters:
+
+```
+fn say-hello
+  console.log[///Hello!///]
+```
+
+```js
+function sayHello() {
+  console.log("Hello!");
+}
+```
+
+With expression body:
+
+```
+fn get-timestamp to Date.now[]
+```
+
+```js
+function getTimestamp() { return Date.now(); }
+```
+
 ## Multiple parameters
 
 Use `;` to separate parameters:
@@ -55,6 +80,31 @@ const double be fn x to x mul 2
 
 ```js
 const double = (x) => x * 2;
+```
+
+### Anonymous function with no arguments
+
+```
+const get-time be fn to Date.now[]
+```
+
+```js
+const getTime = () => Date.now();
+```
+
+### Anonymous function with block body
+
+```
+const process be fn data
+  console.log[data]
+  return data
+```
+
+```js
+const process = (data) => {
+  console.log(data);
+  return data;
+};
 ```
 
 ## Async functions

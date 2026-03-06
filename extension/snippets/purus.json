@@ -134,5 +134,28 @@
     "prefix": "log",
     "body": "console.log[${0}]",
     "description": "console.log"
+  },
+  "Object Destructuring": {
+    "prefix": "objd",
+    "body": "const object[${1:names}] be ${0}",
+    "description": "Object destructuring"
+  },
+  "Nullish Coalescing": {
+    "prefix": "coal",
+    "body": "${1:value} coal ${0:default}",
+    "description": "Nullish coalescing (??)"
+  },
+  "Function (no args)": {
+    "prefix": "fn0",
+    "body": [
+      "fn ${1:name}",
+      "  ${0}"
+    ],
+    "description": "Function with no arguments"
+  },
+  "String Interpolation": {
+    "prefix": "stri",
+    "body": "///[${0}]///",
+    "description": "String with interpolation"
   }
 }
