@@ -49,6 +49,16 @@ npm install -D purus
 
 ドキュメントは [purus.work](https://purus.work) で確認できます。
 
+## 貢献
+
+ガイドは [コチラ](https://github.com/otoneko1102/purus/blob/main/CONTRIBUTING-ja.md) ！
+
+<a href="https://github.com/otoneko1102/purus/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=otoneko1102/purus" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## 著者
 
 otoneko. https://github.com/otoneko1102

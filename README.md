@@ -49,6 +49,16 @@ npm install -D purus
 
 The documentation is available on [purus.work](https://purus.work).
 
+## Contribute
+
+The guide is [here](https://github.com/otoneko1102/purus/blob/main/CONTRIBUTING.md)!
+
+<a href="https://github.com/otoneko1102/purus/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=otoneko1102/purus" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Author
 
 otoneko. https://github.com/otoneko1102
