@@ -10,6 +10,7 @@
     { "include": "#regex" },
     { "include": "#number" },
     { "include": "#declaration" },
+    { "include": "#class" },
     { "include": "#function" },
     { "include": "#control-flow" },
     { "include": "#module" },
@@ -82,8 +83,68 @@
       "match": "(?<![a-zA-Z0-9_-])(const|let|var)(?![a-zA-Z0-9_-])",
       "name": "storage.type.purus"
     },
+    "class": {
+      "patterns": [
+        {
+          "match": "(?<![a-zA-Z0-9_-])(class)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)\\s+(extends)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
+          "captures": {
+            "1": { "name": "storage.type.class.purus" },
+            "2": { "name": "entity.name.type.class.purus" },
+            "3": { "name": "storage.modifier.extends.purus" },
+            "4": { "name": "entity.other.inherited-class.purus" }
+          }
+        },
+        {
+          "match": "(?<![a-zA-Z0-9_-])(class)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
+          "captures": {
+            "1": { "name": "storage.type.class.purus" },
+            "2": { "name": "entity.name.type.class.purus" }
+          }
+        },
+        {
+          "match": "(?<![a-zA-Z0-9_-])(extends)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
+          "captures": {
+            "1": { "name": "storage.modifier.extends.purus" },
+            "2": { "name": "entity.other.inherited-class.purus" }
+          }
+        },
+        {
+          "match": "(?<![a-zA-Z0-9_-])(static|private)(?![a-zA-Z0-9_-])",
+          "name": "storage.modifier.purus"
+        },
+        {
+          "match": "(?<![a-zA-Z0-9_-])(get|set)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
+          "captures": {
+            "1": { "name": "storage.modifier.accessor.purus" },
+            "2": { "name": "storage.type.function.purus" },
+            "3": { "name": "entity.name.function.purus" }
+          }
+        },
+        {
+          "match": "(?<![a-zA-Z0-9_-])(super)(?![a-zA-Z0-9_-])",
+          "name": "variable.language.super.purus"
+        }
+      ]
+    },
     "function": {
       "patterns": [
+        {
+          "match": "(?<![a-zA-Z0-9_-])(static)\\s+(async)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
+          "captures": {
+            "1": { "name": "storage.modifier.purus" },
+            "2": { "name": "storage.modifier.async.purus" },
+            "3": { "name": "storage.type.function.purus" },
+            "4": { "name": "entity.name.function.purus" }
+          }
+        },
+        {
+          "match": "(?<![a-zA-Z0-9_-])(static)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
+          "captures": {
+            "1": { "name": "storage.modifier.purus" },
+            "2": { "name": "storage.type.function.purus" },
+            "3": { "name": "entity.name.function.purus" }
+          }
+        },
         {
           "match": "(?<![a-zA-Z0-9_-])(async)\\s+(fn)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)",
           "captures": {
@@ -186,7 +247,7 @@
       ]
     },
     "other-keyword": {
-      "match": "(?<![a-zA-Z0-9_-])(new|delete|this|await)(?![a-zA-Z0-9_-])",
+      "match": "(?<![a-zA-Z0-9_-])(new|delete|this|await|super)(?![a-zA-Z0-9_-])",
       "name": "keyword.other.purus"
     },
     "support": {
