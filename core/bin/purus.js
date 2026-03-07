@@ -5,7 +5,7 @@ const VERSION = require("../package.json").version;
 const cmd = process.argv[2];
 
 function printHelp() {
-  console.log(`purus v${VERSION} - A language that compiles to JavaScript`);
+  console.log(`Purus v${VERSION} - A language that compiles to JavaScript`);
   console.log("");
   console.log("Usage:");
   console.log("  purus build [file|dir]               Compile to JavaScript");
@@ -47,7 +47,7 @@ switch (cmd) {
   case "version":
   case "--version":
   case "-v":
-    console.log(`purus v${VERSION}`);
+    console.log(`Purus v${VERSION}`);
     break;
   case "help":
   case "--help":
