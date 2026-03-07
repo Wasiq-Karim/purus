@@ -26,6 +26,14 @@ export default defineConfig({
       head: [
         {
           tag: 'meta',
+          attrs: { property: 'og:type', content: 'website' },
+        },
+        {
+          tag: 'meta',
+          attrs: { property: 'og:site_name', content: 'Purus' },
+        },
+        {
+          tag: 'meta',
           attrs: { property: 'og:image', content: 'https://purus.work/img/banner.png' },
         },
         {
