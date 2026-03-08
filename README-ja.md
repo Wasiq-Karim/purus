@@ -45,7 +45,7 @@ npm install -D purus
 
 ## ツール
 
-- **Core** — [`purus`](https://www.npmjs.com/package/purus)
+- **Core** — [`purus`](https://www.npmjs.com/package/purus): Purusのコアシステム
 - **VS Code 拡張機能** — [Marketplace](https://marketplace.visualstudio.com/items?itemName=otoneko1102.purus): シンタックスハイライト、スニペット、ファイルアイコン
 - **リンター** — [`@puruslang/linter`](https://www.npmjs.com/package/@puruslang/linter): Purus の静的解析
 - **Prettier プラグイン** — [`@puruslang/prettier-plugin-purus`](https://www.npmjs.com/package/@puruslang/prettier-plugin-purus): コードフォーマッター
