@@ -45,6 +45,7 @@ npm install -D purus
 
 ## Tooling
 
+- **Core** — [`purus`](https://www.npmjs.com/package/purus)
 - **VS Code Extension** — [Marketplace](https://marketplace.visualstudio.com/items?itemName=otoneko1102.purus): Syntax highlighting, snippets, file icons
 - **Linter** — [`@puruslang/linter`](https://www.npmjs.com/package/@puruslang/linter): Static analysis for Purus
 - **Prettier Plugin** — [`@puruslang/prettier-plugin-purus`](https://www.npmjs.com/package/@puruslang/prettier-plugin-purus): Code formatting
