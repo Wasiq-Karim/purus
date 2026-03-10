@@ -15,6 +15,14 @@ import axios, [AxiosError] from ///axios///
 import all as fs from ///fs///
 ```
 
+```js
+import express from "express";
+import { Hono } from "hono";
+import { describe, it, expect } from "vitest";
+import axios, { AxiosError } from "axios";
+import * as fs from "fs";
+```
+
 ### Side-effect Import
 
 Import a module for its side effects only (no bindings):
@@ -64,6 +72,14 @@ export default fn main
   console.log[///hi///]
 ```
 
+```js
+export function greet(name) { console.log(name); }
+export const VERSION = "1.0";
+export default function main() {
+  console.log("hi");
+}
+```
+
 ## Module namespace
 
 ```purus
@@ -79,6 +95,71 @@ const utils = (() => {
   }
 })();
 ```
+
+## Module Type Configuration
+
+By default, `.purus` files are compiled as ES Modules (ESM). You can configure the module type to CommonJS using the `--type` CLI option, `config.purus`, or `package.json`.
+
+### Resolution Order
+
+1. CLI `--type` option (highest priority)
+2. `config.purus` `type` field
+3. `package.json` `type` field
+4. Default: `module` (ESM)
+
+### CLI Option
+
+```sh
+purus build --type commonjs
+purus build --type module
+```
+
+### config.purus
+
+```purus
+const type be ///module///
+```
+
+or
+
+```purus
+const type be ///commonjs///
+```
+
+Values are the same as `package.json`'s `type` field: `module` (ESM) or `commonjs` (CJS).
+
+### CommonJS Output
+
+When module type is set to `commonjs`, imports and exports are compiled to CJS syntax:
+
+```purus
+import express from ///express///
+import [Hono] from ///hono///
+import all as fs from ///fs///
+import ///dotenv/config///
+```
+
+```js
+const express = require("express");
+const { Hono } = require("hono");
+const fs = require("fs");
+require("dotenv/config");
+```
+
+```purus
+pub const VERSION be ///1.0///
+export default 42
+```
+
+```js
+const VERSION = "1.0";
+exports.VERSION = VERSION;
+module.exports = 42;
+```
+
+:::note
+`.cpurus` files always compile to CommonJS (`.cjs`), and `.mpurus` files always compile to ES Modules (`.mjs`), regardless of the module type configuration.
+:::
 
 ## CommonJS
 

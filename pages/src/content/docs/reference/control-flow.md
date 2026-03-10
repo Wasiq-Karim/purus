@@ -173,7 +173,53 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+## Witch / Case / Default
+
+```purus
+witch x
+  case 1 then ///one///
+  case 2 then ///two///
+  default ///other///
+```
+
+```js
+if (x === 1) {
+  "one";
+} else if (x === 2) {
+  "two";
+} else {
+  "other";
+}
+```
+
+With guards:
+
+In `case n if ...`, the variable `n` is bound to the witch subject (`value`), allowing the guard condition to reference it.
+
+```purus
+witch value
+  case n if n gt 0
+    console.log[///positive///]
+  default
+    console.log[///non-positive///]
+```
+
+```js
+{
+  const n = value;
+  if (n > 0) {
+    console.log("positive");
+  } else {
+    console.log("non-positive");
+  }
+}
+```
+
 ## Match / When
+
+:::caution[Deprecated]
+`match` / `when` is deprecated. Use `witch` / `case` / `default` instead.
+:::
 
 ```purus
 match x

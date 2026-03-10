@@ -15,6 +15,14 @@ import axios, [AxiosError] from ///axios///
 import all as fs from ///fs///
 ```
 
+```js
+import express from "express";
+import { Hono } from "hono";
+import { describe, it, expect } from "vitest";
+import axios, { AxiosError } from "axios";
+import * as fs from "fs";
+```
+
 ### 副作用インポート
 
 バインディングなしでモジュールの副作用のみをインポートします:
@@ -64,6 +72,14 @@ export default fn main
   console.log[///hi///]
 ```
 
+```js
+export function greet(name) { console.log(name); }
+export const VERSION = "1.0";
+export default function main() {
+  console.log("hi");
+}
+```
+
 ## モジュール名前空間
 
 ```purus
@@ -79,6 +95,71 @@ const utils = (() => {
   }
 })();
 ```
+
+## モジュールタイプ設定
+
+デフォルトでは `.purus` ファイルは ES Modules（ESM）としてコンパイルされます。`--type` CLIオプション、`config.purus`、`package.json` を使用してモジュールタイプを CommonJS に設定できます。
+
+### 解決順序
+
+1. CLI `--type` オプション（最優先）
+2. `config.purus` の `type` フィールド
+3. `package.json` の `type` フィールド
+4. デフォルト: `module`（ESM）
+
+### CLIオプション
+
+```sh
+purus build --type commonjs
+purus build --type module
+```
+
+### config.purus
+
+```purus
+const type be ///module///
+```
+
+または
+
+```purus
+const type be ///commonjs///
+```
+
+値は `package.json` の `type` フィールドと同じです: `module`（ESM）または `commonjs`（CJS）。
+
+### CommonJS出力
+
+モジュールタイプが `commonjs` に設定されている場合、インポートとエクスポートは CJS 構文にコンパイルされます:
+
+```purus
+import express from ///express///
+import [Hono] from ///hono///
+import all as fs from ///fs///
+import ///dotenv/config///
+```
+
+```js
+const express = require("express");
+const { Hono } = require("hono");
+const fs = require("fs");
+require("dotenv/config");
+```
+
+```purus
+pub const VERSION be ///1.0///
+export default 42
+```
+
+```js
+const VERSION = "1.0";
+exports.VERSION = VERSION;
+module.exports = 42;
+```
+
+:::note
+`.cpurus` ファイルは常に CommonJS（`.cjs`）として、`.mpurus` ファイルは常に ES Modules（`.mjs`）としてコンパイルされます。モジュールタイプ設定に関係なく適用されます。
+:::
 
 ## CommonJS
 

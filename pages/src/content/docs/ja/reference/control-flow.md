@@ -173,7 +173,53 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+## Witch / Case / Default
+
+```purus
+witch x
+  case 1 then ///one///
+  case 2 then ///two///
+  default ///other///
+```
+
+```js
+if (x === 1) {
+  "one";
+} else if (x === 2) {
+  "two";
+} else {
+  "other";
+}
+```
+
+ガード付き:
+
+`case n if ...` において、変数 `n` はwitchの対象（`value`）にバインドされ、ガード条件でその値を参照できます。
+
+```purus
+witch value
+  case n if n gt 0
+    console.log[///positive///]
+  default
+    console.log[///non-positive///]
+```
+
+```js
+{
+  const n = value;
+  if (n > 0) {
+    console.log("positive");
+  } else {
+    console.log("non-positive");
+  }
+}
+```
+
 ## Match / When
+
+:::caution[非推奨]
+`match` / `when` は非推奨です。代わりに `witch` / `case` / `default` を使用してください。
+:::
 
 ```purus
 match x

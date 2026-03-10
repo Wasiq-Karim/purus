@@ -21,6 +21,7 @@ sidebar:
 | `fn` | `function` | 関数宣言/式 |
 | `return` | `return` | 値を返す |
 | `to` | `=> expr` | 式本体 |
+| `to return` | `{ return expr; }` | 明示的return付き式本体 |
 | `gives` | _（消去）_ | 戻り値型アノテーション |
 | `async` | `async` | 非同期関数 |
 | `await` | `await` | await式 |
@@ -51,8 +52,11 @@ sidebar:
 
 | キーワード | JS出力 | 説明 |
 |---|---|---|
-| `match` | if-elseチェーン | マッチ式 |
-| `when` | _（マッチアーム）_ | マッチケース |
+| `witch` | if-elseチェーン | Witch式 |
+| `case` | _（witchアーム）_ | Witchケース |
+| `default` | _（witchデフォルト）_ | デフォルトアーム |
+| `match` | if-elseチェーン | マッチ式（非推奨） |
+| `when` | _（マッチアーム）_ | マッチケース（非推奨） |
 
 ## モジュール
 

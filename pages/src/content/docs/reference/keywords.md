@@ -21,6 +21,7 @@ sidebar:
 | `fn` | `function` | Function declaration/expression |
 | `return` | `return` | Return value |
 | `to` | `=> expr` | Expression body |
+| `to return` | `{ return expr; }` | Explicit return expression body |
 | `gives` | _(erased)_ | Return type annotation |
 | `async` | `async` | Async function |
 | `await` | `await` | Await expression |
@@ -51,8 +52,11 @@ sidebar:
 
 | Keyword | JS Output | Description |
 |---|---|---|
-| `match` | if-else chain | Match expression |
-| `when` | _(match arm)_ | Match case |
+| `witch` | if-else chain | Witch expression |
+| `case` | _(witch arm)_ | Witch case |
+| `default` | _(witch default)_ | Default arm |
+| `match` | if-else chain | Match expression (deprecated) |
+| `when` | _(match arm)_ | Match case (deprecated) |
 
 ## Modules
 

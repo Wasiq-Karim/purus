@@ -22,7 +22,7 @@ function greet(name) {
 
 ## Named function (expression body)
 
-The `to` form creates a one-liner function body. Named functions do not have implicit return — use explicit `return` to return values.
+The `to` form creates a one-liner function body. Named functions do not have implicit return — use `to return` for explicit return.
 
 ```purus
 fn greet name to console.log[name]
@@ -30,6 +30,16 @@ fn greet name to console.log[name]
 
 ```js
 function greet(name) { console.log(name); }
+```
+
+### Explicit return with `to return`
+
+```purus
+fn double x to return x mul 2
+```
+
+```js
+function double(x) { return x * 2; }
 ```
 
 ## Function with no arguments

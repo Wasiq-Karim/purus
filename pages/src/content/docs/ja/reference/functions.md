@@ -22,7 +22,7 @@ function greet(name) {
 
 ## 名前付き関数（式本体）
 
-`to` 形式はワンライナーの関数本体を作成します。名前付き関数には暗黙のreturnはありません — 値を返すには明示的に `return` を使用してください。
+`to` 形式はワンライナーの関数本体を作成します。名前付き関数には暗黙のreturnはありません — 明示的にreturnするには `to return` を使用してください。
 
 ```purus
 fn greet name to console.log[name]
@@ -30,6 +30,16 @@ fn greet name to console.log[name]
 
 ```js
 function greet(name) { console.log(name); }
+```
+
+### `to return` による明示的なreturn
+
+```purus
+fn double x to return x mul 2
+```
+
+```js
+function double(x) { return x * 2; }
 ```
 
 ## 引数なしの関数
