@@ -133,7 +133,7 @@ fn Parser::parse_stmt(self : Parser) -> Stmt? {
     While_ => Some(self.parse_while_stmt())
     Until => Some(self.parse_until_stmt())
     For_ => Some(self.parse_for_stmt())
-    Match_ => Some(self.parse_match_stmt())
+    Match_ | Witch_ => Some(self.parse_match_stmt())
     Return_ => {
       self.pos += 1
       match self.peek() {
@@ -311,17 +311,7 @@ fn Parser::parse_fn_decl(self : Parser, is_async : Bool) -> Stmt? {
     self.pos += 1
     self.skip_type_annotation()
   }
-  let body : FnBody = if self.peek() == To {
-    self.pos += 1
-    ToExpr(self.parse_expr())
-  } else {
-    // Block body - read indented block
-    let saved = self.pos
-    let indent = self.skip_newlines_and_indent()
-    let _ = saved
-    let stmts = self.parse_block(indent)
-    Block(stmts)
-  }
+  let body : FnBody = self.parse_to_body()
   let decl : FnDecl = { name, params, body, is_async }
   Some(FnDecl(decl))
 }
@@ -529,7 +519,7 @@ fn Parser::parse_match_arms(self : Parser, min_indent : Int) -> Array[MatchArm] 
 /// Try to parse a single match arm (when/else). Returns true if successful.
 fn Parser::parse_one_match_arm(self : Parser, arms : Array[MatchArm]) -> Bool {
   match self.peek() {
-    When_ => {
+    When_ | Case_ => {
       self.pos += 1
       let pattern = self.parse_match_pattern()
       let cond_val : Expr? = if self.peek() == If_ {
@@ -548,7 +538,7 @@ fn Parser::parse_one_match_arm(self : Parser, arms : Array[MatchArm]) -> Bool {
       arms.push({ pattern, cond: cond_val, body })
       true
     }
-    Else_ => {
+    Else_ | Default_ => {
       self.pos += 1
       let body : MatchBody = if self.peek() == Then_ || self.peek() != Newline {
         ExprBody(self.parse_expr())
@@ -838,6 +828,24 @@ fn Parser::parse_class_decl(self : Parser) -> Stmt {
 }
 
 ///|
+fn Parser::parse_to_body(self : Parser) -> FnBody {
+  if self.peek() == To {
+    self.pos += 1
+    if self.peek() == Return_ {
+      self.pos += 1
+      ToReturnExpr(self.parse_expr())
+    } else {
+      ToExpr(self.parse_expr())
+    }
+  } else {
+    let saved = self.pos
+    let indent = self.skip_newlines_and_indent()
+    let _ = saved
+    Block(self.parse_block(indent))
+  }
+}
+
+///|
 fn Parser::parse_class_member(self : Parser) -> ClassMember? {
   match self.peek() {
     Private_ => {
@@ -861,15 +869,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
           self.pos += 1
           self.skip_type_annotation()
         }
-        let body : FnBody = if self.peek() == To {
-          self.pos += 1
-          ToExpr(self.parse_expr())
-        } else {
-          let saved = self.pos
-          let indent = self.skip_newlines_and_indent()
-          let _ = saved
-          Block(self.parse_block(indent))
-        }
+        let body = self.parse_to_body()
         Some(Method(true, false, meth_name, params, body))
       } else if self.peek() == Async_ {
         self.pos += 1
@@ -881,15 +881,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
             self.pos += 1
             self.skip_type_annotation()
           }
-          let body : FnBody = if self.peek() == To {
-            self.pos += 1
-            ToExpr(self.parse_expr())
-          } else {
-            let saved = self.pos
-            let indent = self.skip_newlines_and_indent()
-            let _ = saved
-            Block(self.parse_block(indent))
-          }
+          let body = self.parse_to_body()
           Some(Method(true, true, meth_name, params, body))
         } else {
           None
@@ -903,15 +895,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
       if self.peek() == Fn {
         self.pos += 1
         let getter_name = self.parse_ident_name()
-        let body : FnBody = if self.peek() == To {
-          self.pos += 1
-          ToExpr(self.parse_expr())
-        } else {
-          let saved = self.pos
-          let indent = self.skip_newlines_and_indent()
-          let _ = saved
-          Block(self.parse_block(indent))
-        }
+        let body = self.parse_to_body()
         Some(Getter(getter_name, body))
       } else {
         None
@@ -923,15 +907,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
         self.pos += 1
         let setter_name = self.parse_ident_name()
         let param = self.parse_ident_name()
-        let body : FnBody = if self.peek() == To {
-          self.pos += 1
-          ToExpr(self.parse_expr())
-        } else {
-          let saved = self.pos
-          let indent = self.skip_newlines_and_indent()
-          let _ = saved
-          Block(self.parse_block(indent))
-        }
+        let body = self.parse_to_body()
         Some(Setter(setter_name, param, body))
       } else {
         None
@@ -943,15 +919,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
       if self.peek() == New_ {
         self.pos += 1
         let params = self.parse_param_list()
-        let body : FnBody = if self.peek() == To {
-          self.pos += 1
-          ToExpr(self.parse_expr())
-        } else {
-          let saved = self.pos
-          let indent = self.skip_newlines_and_indent()
-          let _ = saved
-          Block(self.parse_block(indent))
-        }
+        let body = self.parse_to_body()
         Some(Constructor(params, body))
       } else {
         let meth_name = self.parse_ident_name()
@@ -960,15 +928,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
           self.pos += 1
           self.skip_type_annotation()
         }
-        let body : FnBody = if self.peek() == To {
-          self.pos += 1
-          ToExpr(self.parse_expr())
-        } else {
-          let saved = self.pos
-          let indent = self.skip_newlines_and_indent()
-          let _ = saved
-          Block(self.parse_block(indent))
-        }
+        let body = self.parse_to_body()
         Some(Method(false, false, meth_name, params, body))
       }
     }
@@ -982,15 +942,7 @@ fn Parser::parse_class_member(self : Parser) -> ClassMember? {
           self.pos += 1
           self.skip_type_annotation()
         }
-        let body : FnBody = if self.peek() == To {
-          self.pos += 1
-          ToExpr(self.parse_expr())
-        } else {
-          let saved = self.pos
-          let indent = self.skip_newlines_and_indent()
-          let _ = saved
-          Block(self.parse_block(indent))
-        }
+        let body = self.parse_to_body()
         Some(Method(false, true, meth_name, params, body))
       } else {
         None

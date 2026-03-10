@@ -192,6 +192,7 @@ pub(all) struct FnDecl {
 pub(all) enum FnBody {
   Block(Array[Stmt])
   ToExpr(Expr)
+  ToReturnExpr(Expr)
 }
 
 ///|

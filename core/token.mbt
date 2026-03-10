@@ -60,6 +60,8 @@ pub(all) enum TokenKind {
   Continue_
   Match_
   When_
+  Witch_
+  Case_
   Pipe_
   Is
   As

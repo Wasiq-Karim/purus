@@ -5,11 +5,12 @@ pub(all) struct JsCodegen {
   buf : StringBuilder
   mut indent_level : Int
   mut private_fields : Array[String] // tracks private field names in current class
+  cjs : Bool // CommonJS mode
 }
 
 ///|
-pub fn JsCodegen::new() -> JsCodegen {
-  { buf: StringBuilder::new(), indent_level: 0, private_fields: [] }
+pub fn JsCodegen::new(cjs~ : Bool = false) -> JsCodegen {
+  { buf: StringBuilder::new(), indent_level: 0, private_fields: [], cjs }
 }
 
 ///|
@@ -334,32 +335,55 @@ fn JsCodegen::gen_stmt(self : JsCodegen, stmt : Stmt) -> Unit {
       match names {
         Some(ns) => {
           self.write_indent()
-          self.write("import { ")
-          let mut first = true
-          for n in ns {
-            if not(first) {
-              self.write(", ")
+          if self.cjs {
+            self.write("const { ")
+            let mut first = true
+            for n in ns {
+              if not(first) {
+                self.write(", ")
+              }
+              self.write(n)
+              first = false
             }
-            self.write(n)
-            first = false
+            self.write(" } = require(\"")
+            self.write(module_path)
+            self.write("\");\n")
+          } else {
+            self.write("import { ")
+            let mut first = true
+            for n in ns {
+              if not(first) {
+                self.write(", ")
+              }
+              self.write(n)
+              first = false
+            }
+            self.write(" } from \"")
+            self.write(module_path)
+            self.write("\";\n")
           }
-          self.write(" } from \"")
-          self.write(module_path)
-          self.write("\";\n")
         }
         None => {
           self.write_indent()
-          self.write("import * as ")
           // Use last segment as namespace
           let mut last = path
           let parts = path.split(".")
           for p in parts {
             last = p.to_string()
           }
-          self.write(last)
-          self.write(" from \"")
-          self.write(module_path)
-          self.write("\";\n")
+          if self.cjs {
+            self.write("const ")
+            self.write(last)
+            self.write(" = require(\"")
+            self.write(module_path)
+            self.write("\");\n")
+          } else {
+            self.write("import * as ")
+            self.write(last)
+            self.write(" from \"")
+            self.write(module_path)
+            self.write("\";\n")
+          }
         }
       }
     }
@@ -377,15 +401,56 @@ fn JsCodegen::gen_stmt(self : JsCodegen, stmt : Stmt) -> Unit {
     }
     ExportDefault(inner) => {
       self.write_indent()
-      self.write("export default ")
+      if self.cjs {
+        self.write("module.exports = ")
+      } else {
+        self.write("export default ")
+      }
       self.gen_stmt_inline(inner)
       self.write("\n")
     }
     PubDecl(inner) => {
-      self.write_indent()
-      self.write("export ")
-      self.gen_stmt_inline(inner)
-      self.write("\n")
+      if self.cjs {
+        self.gen_stmt(inner)
+        // Add exports assignment after the declaration
+        match inner {
+          VarDecl(_, name, _) => {
+            self.write_indent()
+            self.write("exports.")
+            self.write(js_ident(name))
+            self.write(" = ")
+            self.write(js_ident(name))
+            self.write(";\n")
+          }
+          FnDecl(decl) => {
+            match decl.name {
+              Some(n) => {
+                self.write_indent()
+                self.write("exports.")
+                self.write(js_ident(n))
+                self.write(" = ")
+                self.write(js_ident(n))
+                self.write(";\n")
+              }
+              None => ()
+            }
+          }
+          ClassDecl(decl) => {
+            self.write_indent()
+            self.write("exports.")
+            self.write(js_ident(decl.name))
+            self.write(" = ")
+            self.write(js_ident(decl.name))
+            self.write(";\n")
+          }
+          _ => ()
+        }
+      } else {
+        self.write_indent()
+        self.write("export ")
+        self.gen_stmt_inline(inner)
+        self.write("\n")
+      }
     }
     TypeDecl(_, _) => () // Type declarations are erased at runtime
     ClassDecl(decl) => self.gen_class_decl(decl)
@@ -496,6 +561,11 @@ fn JsCodegen::gen_fn_decl(self : JsCodegen, decl : FnDecl) -> Unit {
   match decl.body {
     ToExpr(expr) => {
       self.write("{ ")
+      self.gen_expr(expr)
+      self.write("; }\n")
+    }
+    ToReturnExpr(expr) => {
+      self.write("{ return ")
       self.gen_expr(expr)
       self.write("; }\n")
     }
@@ -614,6 +684,11 @@ fn JsCodegen::gen_class_body(self : JsCodegen, body : FnBody) -> Unit {
   match body {
     ToExpr(expr) => {
       self.write("{ ")
+      self.gen_expr(expr)
+      self.write("; }\n")
+    }
+    ToReturnExpr(expr) => {
+      self.write("{ return ")
       self.gen_expr(expr)
       self.write("; }\n")
     }
@@ -795,50 +870,120 @@ fn JsCodegen::gen_match(
 fn JsCodegen::gen_import(self : JsCodegen, decl : ImportDecl) -> Unit {
   match decl {
     EsImport(default_name, named, ns_name, module_name, attrs) => {
-      self.write_indent()
-      self.write("import ")
-      let mut has_prev = false
-      match default_name {
-        Some(n) => {
-          self.write(n)
-          has_prev = true
-        }
-        None => ()
-      }
-      match named {
-        Some(names) => {
-          if has_prev {
-            self.write(", ")
+      if self.cjs {
+        // CJS mode: convert to require()
+        match (default_name, named, ns_name) {
+          (Some(n), None, None) => {
+            // import x from "mod" → const x = require("mod");
+            self.write_indent()
+            self.write("const ")
+            self.write(n)
+            self.write(" = require(\"")
+            self.write(module_name)
+            self.write("\");\n")
           }
-          self.write("{ ")
-          let mut first = true
-          for n in names {
-            if not(first) {
+          (None, Some(names), None) => {
+            // import { a, b } from "mod" → const { a, b } = require("mod");
+            self.write_indent()
+            self.write("const { ")
+            let mut first = true
+            for n in names {
+              if not(first) {
+                self.write(", ")
+              }
+              self.write(n)
+              first = false
+            }
+            self.write(" } = require(\"")
+            self.write(module_name)
+            self.write("\");\n")
+          }
+          (Some(n), Some(names), None) => {
+            // import x, { a, b } from "mod" → const x = require("mod"); const { a, b } = x;
+            self.write_indent()
+            self.write("const ")
+            self.write(n)
+            self.write(" = require(\"")
+            self.write(module_name)
+            self.write("\");\n")
+            self.write_indent()
+            self.write("const { ")
+            let mut first = true
+            for nm in names {
+              if not(first) {
+                self.write(", ")
+              }
+              self.write(nm)
+              first = false
+            }
+            self.write(" } = ")
+            self.write(n)
+            self.write(";\n")
+          }
+          (None, None, Some(ns)) => {
+            // import * as fs from "fs" → const fs = require("fs");
+            self.write_indent()
+            self.write("const ")
+            self.write(ns)
+            self.write(" = require(\"")
+            self.write(module_name)
+            self.write("\");\n")
+          }
+          _ => {
+            // fallback: just require
+            self.write_indent()
+            self.write("require(\"")
+            self.write(module_name)
+            self.write("\");\n")
+          }
+        }
+      } else {
+        // ESM mode
+        self.write_indent()
+        self.write("import ")
+        let mut has_prev = false
+        match default_name {
+          Some(n) => {
+            self.write(n)
+            has_prev = true
+          }
+          None => ()
+        }
+        match named {
+          Some(names) => {
+            if has_prev {
               self.write(", ")
             }
-            self.write(n)
-            first = false
+            self.write("{ ")
+            let mut first = true
+            for n in names {
+              if not(first) {
+                self.write(", ")
+              }
+              self.write(n)
+              first = false
+            }
+            self.write(" }")
+            has_prev = true
           }
-          self.write(" }")
-          has_prev = true
+          None => ()
         }
-        None => ()
-      }
-      match ns_name {
-        Some(ns) => {
-          if has_prev {
-            self.write(", ")
+        match ns_name {
+          Some(ns) => {
+            if has_prev {
+              self.write(", ")
+            }
+            self.write("* as ")
+            self.write(ns)
           }
-          self.write("* as ")
-          self.write(ns)
+          None => ()
         }
-        None => ()
+        self.write(" from \"")
+        self.write(module_name)
+        self.write("\"")
+        self.gen_import_attributes(attrs)
+        self.write(";\n")
       }
-      self.write(" from \"")
-      self.write(module_name)
-      self.write("\"")
-      self.gen_import_attributes(attrs)
-      self.write(";\n")
     }
     CjsRequire(name, module_name) => {
       self.write_indent()
@@ -855,12 +1000,20 @@ fn JsCodegen::gen_import(self : JsCodegen, decl : ImportDecl) -> Unit {
       self.write("\");\n")
     }
     SideEffectImport(module_name, attrs) => {
-      self.write_indent()
-      self.write("import \"")
-      self.write(module_name)
-      self.write("\"")
-      self.gen_import_attributes(attrs)
-      self.write(";\n")
+      if self.cjs {
+        // CJS mode: import "mod" → require("mod");
+        self.write_indent()
+        self.write("require(\"")
+        self.write(module_name)
+        self.write("\");\n")
+      } else {
+        self.write_indent()
+        self.write("import \"")
+        self.write(module_name)
+        self.write("\"")
+        self.gen_import_attributes(attrs)
+        self.write(";\n")
+      }
     }
   }
 }

@@ -615,6 +615,61 @@ test "codegen: strict mode with header" {
 
 // ===== Lexer class keyword tests =====
 
+// ===== CJS module type tests =====
+
+fn compile_cjs(src : String) -> String {
+  let tokens = @core.Lexer::new(src).tokenize()
+  let stmts = @core.Parser::new(tokens).parse()
+  @core.JsCodegen::new(cjs=true).generate(stmts, strict=false)
+}
+
+test "cjs: default import" {
+  let js = compile_cjs("import express from ///express///")
+  assert_eq(js, "const express = require(\"express\");\n")
+}
+
+test "cjs: named import" {
+  let js = compile_cjs("import [Hono] from ///hono///")
+  assert_eq(js, "const { Hono } = require(\"hono\");\n")
+}
+
+test "cjs: default + named import" {
+  let js = compile_cjs("import axios, [AxiosError] from ///axios///")
+  assert_eq(js, "const axios = require(\"axios\");\nconst { AxiosError } = axios;\n")
+}
+
+test "cjs: namespace import" {
+  let js = compile_cjs("import all as fs from ///fs///")
+  assert_eq(js, "const fs = require(\"fs\");\n")
+}
+
+test "cjs: side-effect import" {
+  let js = compile_cjs("import ///dotenv/config///")
+  assert_eq(js, "require(\"dotenv/config\");\n")
+}
+
+test "cjs: export default expression" {
+  let js = compile_cjs("export default 42")
+  assert_eq(js, "module.exports = 42;\n")
+}
+
+test "cjs: pub const" {
+  let js = compile_cjs("pub const name be ///hello///")
+  assert_eq(js, "const name = \"hello\";\nexports.name = name;\n")
+}
+
+test "cjs: pub fn" {
+  let js = compile_cjs("pub fn greet x to console.log[x]")
+  assert_eq(js, "function greet(x) { console.log(x); }\nexports.greet = greet;\n")
+}
+
+test "cjs: require keyword unchanged" {
+  // CjsRequire is a direct AST variant - test via codegen directly
+  let stmts : Array[@core.Stmt] = [@core.ImportDecl(@core.CjsRequire("lodash", "lodash"))]
+  let js = @core.JsCodegen::new(cjs=true).generate(stmts, strict=false)
+  assert_eq(js, "const lodash = require(\"lodash\");\n")
+}
+
 test "lexer: class keyword" {
   let lexer = @core.Lexer::new("class")
   let tokens = lexer.tokenize()
@@ -655,4 +710,72 @@ test "lexer: set keyword" {
   let lexer = @core.Lexer::new("set")
   let tokens = lexer.tokenize()
   assert_eq(tokens[1].kind, @core.Set_)
+}
+
+// ===== witch/case/default tests =====
+
+test "lexer: witch keyword" {
+  let lexer = @core.Lexer::new("witch")
+  let tokens = lexer.tokenize()
+  assert_eq(tokens[1].kind, @core.Witch_)
+}
+
+test "lexer: case keyword" {
+  let lexer = @core.Lexer::new("case")
+  let tokens = lexer.tokenize()
+  assert_eq(tokens[1].kind, @core.Case_)
+}
+
+test "integration: witch" {
+  let src =
+    #|witch x
+    #|  case 1 then ///one///
+    #|  case 2 then ///two///
+    #|  default ///other///
+  let tokens = @core.Lexer::new(src).tokenize()
+  let stmts = @core.Parser::new(tokens).parse()
+  assert_eq(stmts.length(), 1)
+}
+
+test "codegen: witch/case/default" {
+  let src =
+    #|witch x
+    #|  case 1 then ///one///
+    #|  case 2 then ///two///
+    #|  default ///other///
+  let js = compile(src)
+  assert_true(js.contains("if (x === 1)"))
+  assert_true(js.contains("\"one\""))
+  assert_true(js.contains("\"two\""))
+  assert_true(js.contains("\"other\""))
+}
+
+test "codegen: witch with block body" {
+  let src =
+    #|witch status
+    #|  case ///ok///
+    #|    console.log[///success///]
+    #|  case ///error///
+    #|    console.log[///failure///]
+    #|  default
+    #|    console.log[///unknown///]
+  let js = compile(src)
+  assert_true(js.contains("if (status === \"ok\")"))
+  assert_true(js.contains("console.log(\"success\")"))
+  assert_true(js.contains("console.log(\"unknown\")"))
+}
+
+// ===== to return tests =====
+
+test "codegen: fn to return" {
+  let js = compile("fn double x to return x mul 2")
+  assert_true(js.contains("function double(x) { return x * 2; }"))
+}
+
+test "codegen: class method to return" {
+  let src =
+    #|class Calc
+    #|  fn sum a; b to return a add b
+  let js = compile(src)
+  assert_true(js.contains("sum(a, b) { return a + b; }"))
 }

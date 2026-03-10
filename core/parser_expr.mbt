@@ -482,8 +482,8 @@ fn Parser::parse_primary(self : Parser) -> Expr {
       let else_expr = self.parse_expr()
       IfExpr(cond, then_expr, else_expr)
     }
-    Match_ => {
-      // Match expression
+    Match_ | Witch_ => {
+      // Match/witch expression
       self.pos += 1
       let subject = self.parse_expr()
       let saved = self.pos
@@ -526,7 +526,12 @@ fn Parser::parse_primary(self : Parser) -> Expr {
         }
         if self.peek() == To {
           self.pos += 1
-          AsyncFnExprTo(params, self.parse_expr())
+          if self.peek() == Return_ {
+            self.pos += 1
+            AsyncFnExprTo(params, self.parse_expr())
+          } else {
+            AsyncFnExprTo(params, self.parse_expr())
+          }
         } else {
           let indent = self.skip_newlines_and_indent()
           AsyncFnExpr(params, self.parse_block(indent))
@@ -730,8 +735,12 @@ fn Parser::parse_fn_expr(self : Parser) -> Expr {
   }
   if self.peek() == To {
     self.pos += 1
-    let body = self.parse_expr()
-    FnExprTo(params, body)
+    if self.peek() == Return_ {
+      self.pos += 1
+      FnExprTo(params, self.parse_expr())
+    } else {
+      FnExprTo(params, self.parse_expr())
+    }
   } else {
     let saved = self.pos
     let indent = self.skip_newlines_and_indent()
