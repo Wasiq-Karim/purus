@@ -79,6 +79,13 @@ export default defineConfig({
           autogenerate: { directory: 'tools' },
         },
         {
+          label: 'Community',
+          translations: { ja: 'コミュニティ' },
+          items: [
+            { label: 'Community Projects', translations: { ja: 'コミュニティプロジェクト' }, slug: 'community-projects' },
+          ],
+        },
+        {
           label: 'Resources',
           translations: { ja: 'リソース' },
           items: [
