@@ -1,11 +1,13 @@
 {
   "name": "purus",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A language that compiles to JavaScript — no Shift key required",
   "main": "index.js",
   "module": "index.mjs",
+  "types": "index.d.ts",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "import": "./index.mjs",
       "require": "./index.js"
     }
@@ -16,6 +18,7 @@
   "files": [
     "index.js",
     "index.mjs",
+    "index.d.ts",
     "bin/",
     "lib/",
     "LICENSE",
