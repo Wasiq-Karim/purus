@@ -88,6 +88,15 @@
     ],
     "description": "Until loop"
   },
+  "Witch": {
+    "prefix": "witch",
+    "body": [
+      "witch ${1:value}",
+      "  case ${2:pattern} then ${3:result}",
+      "  default ${0}"
+    ],
+    "description": "Witch expression"
+  },
   "Match": {
     "prefix": "match",
     "body": [
@@ -95,7 +104,12 @@
       "  when ${2:pattern} then ${3:result}",
       "  else ${0}"
     ],
-    "description": "Match expression"
+    "description": "Match expression (deprecated, use witch)"
+  },
+  "Function (to return)": {
+    "prefix": "fntr",
+    "body": "fn ${1:name} ${2:params} to return ${0}",
+    "description": "Function with explicit return expression body"
   },
   "Try-Catch": {
     "prefix": "try",
