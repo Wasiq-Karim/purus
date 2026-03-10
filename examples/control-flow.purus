@@ -44,12 +44,17 @@ for i; item in items
 for i in range 0; 10
   console.log[i]
 
--- Match expression
+-- Witch expression
 const status be ///ok///
-match status
-  when ///ok///
+witch status
+  case ///ok///
     console.log[///success///]
-  when ///error///
+  case ///error///
     console.log[///failure///]
-  when _
+  default
     console.log[///unknown///]
+
+-- Match expression (deprecated, use witch instead)
+match status
+  when ///ok/// then console.log[///ok///]
+  else console.log[///other///]

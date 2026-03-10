@@ -4,8 +4,11 @@
 fn greet name
   console.log[///Hello, /// add name add ///!///]
 
--- Named function with expression body
+-- Named function with expression body (no return)
 fn double x to x mul 2
+
+-- Named function with explicit return
+fn triple x to return x mul 3
 
 -- Function with no arguments
 fn say-hello
