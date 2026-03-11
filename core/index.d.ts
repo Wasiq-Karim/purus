@@ -34,7 +34,7 @@ export interface CompileOptions {
  * const js = compile('const x be 42');
  * ```
  */
-export function compile(source: string, options?: CompileOptions): string;
+export declare function compile(source: string, options?: CompileOptions): string;
 
 /**
  * Check Purus source code for syntax errors.
@@ -49,12 +49,12 @@ export function compile(source: string, options?: CompileOptions): string;
  * check('const x be 42'); // true
  * ```
  */
-export function check(source: string): true;
+export declare function check(source: string): true;
 
 /**
  * The Purus compiler version.
  */
-export const version: string;
+export declare const version: string;
 
 declare const purus: {
   compile: typeof compile;
