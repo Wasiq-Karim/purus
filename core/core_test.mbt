@@ -825,6 +825,16 @@ test "cjs: from import default" {
   assert_eq(js, "const express = require(\"express\");\n")
 }
 
+test "codegen: from import with attributes" {
+  let js = compile("from ///./data.json/// import data with [ type be ///json/// ]")
+  assert_true(js.contains("import data from \"./data.json\" with { type: \"json\" };"))
+}
+
+test "codegen: from import named with attributes" {
+  let js = compile("from ///./package.json/// import [name, version] with [ type be ///json/// ]")
+  assert_true(js.contains("import { name, version } from \"./package.json\" with { type: \"json\" };"))
+}
+
 // ===== type check with typeof =====
 
 test "codegen: typeof type check" {

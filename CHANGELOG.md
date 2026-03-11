@@ -6,6 +6,23 @@ Change history for Purus syntax, specifications, and reserved keywords.
 
 ## v0.8.0 (2026-03-11)
 
+### Breaking Changes
+
+- **`pub` → `public`**: The `pub` keyword has been removed. Use `public` instead.
+
+- **Removed automatic type name detection**: `eq`/`is` with type names (e.g. `x is string`, `x eq number`) no longer auto-generates `typeof` checks. Type names are now treated as regular identifiers.
+  ```purus
+  -- Before (v0.7.x):  x is string → typeof x === "string"
+  -- After (v0.8.0):   x is string → x === string (identifier comparison)
+  -- Migration:        typeof x eq ///string///
+  ```
+
+### Deprecations
+
+- **`match` / `when` deprecated**: The `match` / `when` syntax still works but is deprecated in favor of `witch` / `case` / `default`.
+
+- **`use` / `from...use` deprecated**: Dot-path imports (`use std.math`, `from std.math use sin, cos`) are deprecated. Use `import...from` or `from...import` with string paths instead.
+
 ### New Features
 
 - **`witch` / `case` / `default` syntax**: Added a new pattern matching syntax as the recommended replacement for `match` / `when` / `else`.
@@ -47,23 +64,6 @@ Change history for Purus syntax, specifications, and reserved keywords.
   from ///react/// import [useState, useEffect]
   from ///fs/// import all as fs
   ```
-
-### Breaking Changes
-
-- **Removed `pub` keyword**: The `pub` keyword has been removed. Use `public` instead.
-
-- **Removed automatic type name detection**: `eq`/`is` with type names (e.g. `x is string`, `x eq number`) no longer auto-generates `typeof` checks. Type names are now treated as regular identifiers.
-  ```purus
-  -- Before (v0.7.x):  x is string → typeof x === "string"
-  -- After (v0.8.0):   x is string → x === string (identifier comparison)
-  -- Migration:        typeof x eq ///string///
-  ```
-
-### Deprecations
-
-- **`match` / `when` deprecated**: The `match` / `when` syntax still works but is deprecated in favor of `witch` / `case` / `default`.
-
-- **`use` / `from...use` deprecated**: Dot-path imports (`use std.math`, `from std.math use sin, cos`) are deprecated. Use `import...from` or `from...import` with string paths instead.
 
 ### Tooling
 
