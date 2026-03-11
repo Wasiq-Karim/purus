@@ -50,6 +50,10 @@ export default defineConfig({
           tag: 'meta',
           attrs: { name: 'twitter:image', content: 'https://purus.work/img/banner.png' },
         },
+        {
+          tag: 'script',
+          content: `document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('a[href^="http"]').forEach(a=>{if(!a.hostname||a.hostname!==location.hostname){a.setAttribute('target','_blank');a.setAttribute('rel','noopener noreferrer')}})})`,
+        },
       ],
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/otoneko1102/purus' },
