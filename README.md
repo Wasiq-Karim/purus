@@ -25,6 +25,13 @@ Purus - _/ˈpuː.rus/_ _**means pure✨ in Latin**_ - is a beautiful, simple, an
 
 With Purus, you can write code almost without pressing the _Shift key_.
 
+```purus
+let name
+name be ///Purus///
+const message be ///Welcome to [name]!///
+console.log[message] -- Welcome to Purus!
+```
+
 ## Install
 
 ```sh
